@@ -1,0 +1,13 @@
+User Profiles — the messier of the two tables. Gender had 702 true nulls plus an additional 218 rows stored as a blank space " " — 
+two different representations of "unknown" that had to be unified. Race had the same pattern (1,078 nulls + 231 blanks). Age had 920 records
+sitting at 0 (likely system defaults for unknown age), and 7 users with ages between 111–114 — clearly data entry errors. Province had 
+702 nulls matching the gender nulls, suggesting these were likely the same set of incomplete registrations.
+Viewership — cleaner but with two gotchas. The RecordDate2 timestamps were in UTC and needed a +2 hour shift 
+to South African Standard Time (SAST) before any day-of-week or time-slot analysis could be trusted. More interestingly, 
+the table had two UserID columns — UserID and userid — which disagreed on 485 rows (4.85% of sessions). 
+The UserID column had more unique values (4,386 vs 4,080), suggesting userid was a partially-corrected or alternate key. 
+The Databricks step used UserID as the authoritative join key.
+The join was a left join from Viewership onto User Profiles on UserID — preserving all 10,000 session records while enriching them with 
+demographic fields wherever a match existed. Click any node in the diagrams to explore further.
+
+Tools: Excel, Data bricks, PowerPoint and Cluade
